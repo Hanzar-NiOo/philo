@@ -1,0 +1,79 @@
+POSIX thread (pthread) libraries
+
+=> The POSIX thread libraries are a standards based thread API for C/C++.
+(i)		allows one to spawn a new concurrent process flow
+(ii)	most effective on multi-processor or multi-core systems
+		=> where the process flow can be scheduled to run on another processor
+		thus gaining speed through parallel or distributed processing
+(iii)	Threads require less overhead than "forking" or spawning a new process
+(iv)	gains are also found on uniprocessor systems
+		which exploit latency in I/O and other system functions which may halt process execution	
+	*** (One thread may execute while another is waiting for I/O or some other system latency.)***
+(v)		Parallel programming technologies such as MPI and PVM are used in a distributed computing
+		environment while threads are limited to a single computer system
+(vi)	All threads within a process share the same address space
+(vii)	A thread is spawned by defining a function and it's arguments
+		=> which will be processed in the thread
+
+***The purpose of using the POSIX thread library in your software is to execute software faster.***
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+Thread Basics:
+
+		=>	Thread operations include
+(i)		thread creation
+(ii)	termination
+(iii)	synchronization (joins,blocking)
+(iv)	scheduling
+(v)		data management
+(vi)	process interaction.
+
+		=>	A thread does not maintain a list of created threads,nor does it know the thread
+			that created it.
+
+		=>	Threads in the same process share:
+(i)		Process instructions
+(ii)	Most data
+(iii)	open files (descriptors)
+(iv)	signals and signal handlers
+(v)		current working directory
+(vi)	User and group id
+
+		=>	Each thread has a unique:
+(i)		Thread ID
+(ii)	set of registers, stack pointer
+(iii)	stack for local variables, return addresses
+(iv)	signal mask
+(v)		priority
+(vi)	Return value: errno
+
+		=>	pthread functions return "0" if OK.
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+Thread Creation and Termination:
+
+int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void *(*start_routine) (void *),
+					void *arg);
+
+Arguments: ***
+thread - returns the thread id. (unsigned long int defined in bits/pthreadtypes.h)
+attr - Set to NULL if default thread attributes are used. (else define members of the struct pthread_attr_t defined in bits/pthreadtypes.h) Attributes include:
+(i)		detached state (joinable? Default: PTHREAD_CREATE_JOINABLE. Other option: PTHREAD_CREATE_DETACHED)
+(ii)	scheduling policy (real-time? PTHREAD_INHERIT_SCHED,PTHREAD_EXPLICIT_SCHED,SCHED_OTHER)
+		scheduling parameter
+(iii)	inheritsched attribute (Default: PTHREAD_EXPLICIT_SCHED Inherit from parent thread: PTHREAD_INHERIT_SCHED)
+(iv)	scope (Kernel threads: PTHREAD_SCOPE_SYSTEM User threads: PTHREAD_SCOPE_PROCESS Pick one or the other not both.)
+		guard size
+(v)		stack address (See unistd.h and bits/posix_opt.h _POSIX_THREAD_ATTR_STACKADDR)
+(vi)	stack size (default minimum PTHREAD_STACK_SIZE set in pthread.h),
+(vii)	void * (*start_routine) - pointer to the function to be threaded. Function has a single argument: pointer to void.
+(viii)	*arg - pointer to argument of function. To pass multiple arguments, send a pointer to a structure.
+
+Function call: pthread_exit
+    void pthread_exit(void *retval);
+    
+Arguments:
+retval - Return value of thread.
+
