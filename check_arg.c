@@ -1,5 +1,11 @@
 #include "philo.h"
 
+void	check_arg(int argc, char **argv)
+{
+	check_argc(argc);
+	check_argv(argc, argv);
+}
+
 void	check_argc(int argc)
 {
 	if (argc != 5 && argc != 6)

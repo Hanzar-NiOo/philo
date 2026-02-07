@@ -15,6 +15,7 @@ typedef enum s_error
 int		error(t_error type);
 void	find_error_type(t_error type);
 
+void	check_arg(int argc, char **argv);
 void	check_argc(int argc);
 void	check_argv(int argc, char **argv);
 
