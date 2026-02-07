@@ -1,12 +1,16 @@
 #include "philo.h"
 
-void	check_arg(int argc, char **argv)
+void	check_argc(int argc)
+{
+	if (argc != 5 && argc != 6)
+		error (ARG_COUNT);
+}
+
+void	check_argv(int argc, char **argv)
 {
 	int	arg_idx;
 	int	char_idx;
 
-	if (argc != 5 && argc != 6)
-		error ();
 	arg_idx = 1;
 	while (arg_idx != argc)
 	{
@@ -14,9 +18,9 @@ void	check_arg(int argc, char **argv)
 		while (argv[arg_idx][char_idx])
 		{
 			if (argv[arg_idx][0] == '0')
-				error ();
+				error (ARG_VALUE);
 			if (argv[arg_idx][char_idx] < 48 || argv[arg_idx][char_idx] > 58)
-				error ();
+				error (ARG_VALUE);
 			char_idx++;
 		}
 		arg_idx++;
