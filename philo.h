@@ -6,6 +6,7 @@
 # include <stdlib.h>
 # include <pthread.h>
 
-int	error(void);
+int		error(void);
+void	check_arg(int argc, char **argv);
 
 #endif
