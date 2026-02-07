@@ -1,0 +1,208 @@
+1. VALIDATE the arguments:
+	1.1 CHECK argument count:
+		IF argument count is 5 or 6:
+			CONTINUE to check the chracter
+		ELSE 
+			RETURN false zero
+	1.2 LOOP through arguments (start from index 1 until there are more arguments to check)
+		i. LOOP through each character of current argument (WHILE current character is not the end of the string)
+			CHECK if digit
+				IF not between '0' and '9':
+					RETURN false zero
+			CHECK for zero philo edge case:
+				IF first chracter of first argument is '0':
+					RETURN false zero
+			MOVE to next character
+		MOVE to next argument
+	1.3 IF all character of all arguments passed the check:
+		RETURN true one
+
+2. ALLOCATE memory:
+	2.1 allocate memory for array of philosopher struct
+	2.2 allocate memory for array of mutex (forks) 
+	2.3 allocate memory for (only) one shared death mutex
+
+	if any memory allocation is failed:
+		STOP and return error status (1);
+
+3. INITIALIZE data:
+	3.1 FILL philosopher structure
+		i. ALLOCATE memory for single integer for shared dead flag (pointer)
+			SET that value to 0 (false, not dead)
+		ii. LOOP throught each philosopher (0 to total number of philosopher)
+			a. ASSIGN identity
+				SET philosopher id to 'i' (according to counter)
+				SET total number of philosopher as the argument one 
+			b. ASSIGN time
+				SET time to die as the argument two
+				SET time to eat as the argument there
+				SET time to eat as the argument four
+			c. HANDLE optional meal goal 
+				IF argument count is 6:
+					SET must eat goal as the argument six
+				ELSE:
+					SET mest eat goal as -1 (no limit)
+			d. INITIALIZE simulation:
+				RECORD current system time as last meal time
+				RECORD current system time as stat time
+				SET total eaten count to zero
+				LINK the shared dead flag to this philosopher (crearted in stage i)
+			e. MOVE to next philosopher structure
+
+	3.2 SET mutex to philosopher (forks)
+		i. ASSIGN fork (pointer)
+		LOOP through each philosopher (0 to total number - 1)
+			a. SET current philo left fork to point to fork at 'i' index
+			b. SET current philo right fork ro point to fort at (i + 1) % total
+		ii. INITIALIZE fork mutex and assign shared death flag (mutex)
+			a. ACTIVATE the left fork mutex 
+			b. ACTIVATE the right fork mutex
+			c. LINK the death mutex pointer to current philosopher death variable
+		iii. ACTIVATE the sigle shared death mutex (to be ready to use)
+
+
+4. LAUNCH PHASE:
+	LOOP through each philosopher (0 to total number - 1)
+		a. CREATE new thread for current philosopher
+			The thread is executing following routine
+				IF only one philosopher exists:
+					- LOCK the left fork
+					- PRINT "he took fork"
+					- WHILE checking dead is false
+						WAIT until death occurs
+					- UNLOCK the left fork
+				ELSE (more than one philosopher)
+					LOOP infinitely:
+						- CHECK dead and IF true, break LOOP
+						- PREFORM eating action
+						- PEROFMR sleeping action
+						- PERFORM thinking action
+				RETURN nothing
+		b. PAUSE for 100 microseconds (to prevent deadlock)
+		c. MOVE to next philosopher
+	MONITORING check
+	CHECK dead function
+		IF meal goal met or dead flag become 1 or starved
+			EXIT from thread creation
+	WAITING phase (joining):
+	LOOP through each philosopher from 0 to total number - 1
+		a. PAUSE main thread until the current philosopher thread finishes its routine (mentioned above)
+		b. When funish, move to next thread
+
+5. PRINT the result
+	PRINT the total number of time the philosopher eaten
+
+6. CLEAN
+	FREE all allocated memory of philo, forks, death
+
+END Function
+
+=========================================
+
+checking dead function
+
+1. CHECK final goal (total meal)
+	IF total meal is equal to must eat 
+		RETURN true one
+
+2. CHECK shared death mutex status
+	LOCK the death mutex (in order to prevent from data race)
+	IF the shared dead flag is 1
+		UNLOCK death mutex
+		RETURN true one
+	UNLOCK the shared dead mutex
+
+3. CHECK final goal (total meal)
+	IF (Current time - Last meal time) is greater than time to die
+		PRINT "die"
+		RETURN true one
+
+4. STILL alive:
+	RETURN false zero
+
+
+=======================================
+
+geting time function 
+
+1. CREATE time structure (timeval) to hold seconds and microseconds.
+2. CALL the system function 'gettimeofday' in order to fill the container (structure) with the current time.
+3. CONVERT time to milliseconds:
+	i. TAKE second and multiply by 1000
+	ii. TAKE microseconds and devided by 1000
+	iii. ADD those two results.
+4. RETURN that final result (time in milliseconds)
+
+=======================================
+
+eating activity
+
+1. CHECK dead 
+	IF true, EXIT the function
+2. ACQUITE mutex (forks)
+	a. LOCK the left fork
+	b. PRINT "philosopher took fork"
+	c. LOCK the right fork (thread will be waiting if that fork is already being used)
+3. CHECK after lock (death status)
+	IF true, EXIT the function
+4. PRINT "philosopher took fork" (second fork)
+5. UPDATE meal count
+	a. LOCK the shared mutex death
+	b. INCREASE total eaten by 1
+	c. UNLOCK the shared mutex death
+6. EATING phase
+	a. PRINT "philosopher is eating"
+	b. WAIT the time to eat duration (pause execution)
+7. UPDATE time
+	a. LOCK the shared mutex death
+	b. RECORD current time as last meal
+	c. UNLOCK the shared mutex death
+8. FINAL check
+	a. CHECK dead
+		IF true, EXIT the function
+
+
+=======================================
+
+sleeping activity
+
+1. RELEASE resources
+	a. UNLOCK left fork mutex
+	b. UNLOCK right fork mutex
+2. CHECK dead
+	IF true, exit the Function
+3. PRINT "sleeping"
+4. PAUSE execution for time to sleep duration 
+
+=======================================
+
+thinking activity
+
+1. CHECK dead
+	IF true, exit function
+2. PRINT "thinking"
+
+=======================================
+
+printing function
+
+1. LOCK the shared mutex death
+2. CHECK simulation status:
+	IF the shared dead flag is still zero:
+		a. CALCULATE timestamp (current time - simulation start time)
+		b. PRINT timestamp , philosopher ID and status str
+		c. IF kill flag is true (call for death)
+			SET the shared dead flag to 1 (to stop all other philosopher)
+3. UNLOCK the shared mutex death
+4. CHECK dead (to unsure the thread stop)
+
+=======================================
+
+waiting function
+
+1. RECORD the start time of this waiting duration
+2. LOOP while the (current time - start time) is < total waiting time
+	a. CHECK dead
+		IF true, RETURN one
+	b. STOP for a while (10 microseconds) 
+3. RETURN zero (waiting is successful)
