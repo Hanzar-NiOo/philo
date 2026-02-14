@@ -54,7 +54,9 @@ void	check_argc(int argc);
 void	check_argv(int argc, char **argv);
 void	philo_init(int argc, char **argv, t_philo *philo);
 void	mutex_init(t_philo *philo, pthread_mutex_t *forks, pthread_mutex_t *death);
+void	*check_philo(void *arg);
 t_time	get_time(void);
 long	ft_atoi(const char *str);
+void	print_for_philo(t_philo philo, char *str, int status);
 
 #endif
