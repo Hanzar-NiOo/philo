@@ -25,4 +25,6 @@ void	find_error_type(t_error type)
 		write(2, "Argument count must be 5 (or) 6\n", 32);
 	else if (type == ARG_VALUE)
 		write(2, "Argument values aren't valid\n", 30);
+	else if (type == MALLOC)
+		write(2, "Memory allocation fail\n", 30);
 }

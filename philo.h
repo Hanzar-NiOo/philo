@@ -23,6 +23,7 @@ typedef enum s_error
 {
 	ARG_COUNT,
 	ARG_VALUE,
+	MALLOC,
 }	t_error;
 
 typedef unsigned long long	t_time;
@@ -45,16 +46,15 @@ typedef struct s_philo
 	pthread_mutex_t	*right_fork;
 }	t_philo;
 
-# include <unistd.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <pthread.h>
-
 int		error(t_error type);
 void	find_error_type(t_error type);
 
 void	check_arg(int argc, char **argv);
 void	check_argc(int argc);
 void	check_argv(int argc, char **argv);
+void	philo_init(int argc, char **argv, t_philo *philo);
+void	mutex_init(t_philo *philo, pthread_mutex_t *forks, pthread_mutex_t *death);
+t_time	get_time(void);
+long	ft_atoi(const char *str);
 
 #endif
