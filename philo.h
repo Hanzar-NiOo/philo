@@ -57,6 +57,7 @@ void	mutex_init(t_philo *philo, pthread_mutex_t *forks, pthread_mutex_t *death);
 void	*check_philo(void *arg);
 t_time	get_time(void);
 long	ft_atoi(const char *str);
-void	print_for_philo(t_philo philo, char *str, int status);
+void	print_philo(t_philo *philo, char *str, int status);
+int		check_dead(t_philo *philo);
 
 #endif

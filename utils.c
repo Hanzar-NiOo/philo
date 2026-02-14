@@ -6,7 +6,7 @@
 /*   By: hnioo <hnioo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 21:27:13 by hnioo             #+#    #+#             */
-/*   Updated: 2026/02/15 00:48:47 by hnioo            ###   ########.fr       */
+/*   Updated: 2026/02/15 02:24:36 by hnioo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,35 @@ long	ft_atoi(const char *str)
 	return (result * sign);
 }
 
-void	print_for_philo(t_philo *philo, char *str, int status)
+void	print_philo(t_philo *philo, char *str, int status)
 {
 	pthread_mutex_lock(philo->death);
 	if (!*philo->check_dead)
 	{
-		printf("%llu %d %s\n", (ft_get_time() - philo->start_time),
-			philo->id + 1, status);
+		printf("%llu %d %s\n", (get_time() - philo->start_time),
+			philo->id + 1, str);
 		if (status)
 			*philo->check_dead = 1;
 	}
 	pthread_mutex_unlock(philo->death);
 	check_dead(philo);
+}
+
+int	check_dead(t_philo *philo)
+{
+	if (philo->total_eaten == philo->must_eat)
+		return (1);
+	pthread_mutex_lock(philo->death);
+	if (*philo->check_dead)
+	{
+		pthread_mutex_unlock(philo->death);
+		return (1);
+	}
+	pthread_mutex_unlock(philo->death);
+	if (get_time() - philo->last_meal > philo->time_to_die)
+	{
+		print_philo(philo, "DIE", 1);
+		return (1);
+	}
+	return (0);
 }

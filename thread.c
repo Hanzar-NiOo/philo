@@ -6,7 +6,7 @@
 /*   By: hnioo <hnioo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 23:41:56 by hnioo             #+#    #+#             */
-/*   Updated: 2026/02/15 00:55:13 by hnioo            ###   ########.fr       */
+/*   Updated: 2026/02/15 02:25:15 by hnioo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,25 +33,6 @@ void	create_thread(t_philo *philo)
 	}
 }
 
-int	check_dead(t_philo *philo)
-{
-	if (philo->total_eaten == philo->must_eat)
-		return (1);
-	pthread_mutex_lock(philo->death);
-	if (*philo->check_dead)
-	{
-		pthread_mutex_unlock(philo->death);
-		return (1);
-	}
-	pthread_mutex_unlock(philo->death);
-	if (ft_get_time() - philo->last_meal > philo->time_to_die)
-	{
-		print_for_philo(*philo, "DIE", 1);
-		return (1);
-	}
-	return (0);
-}
-
 void	*check_philo(void *arg)
 {
 	t_philo	*philo;
@@ -73,9 +54,10 @@ void	*check_philo(void *arg)
 		{
 			if (check_dead(philo))
 				break ;
-			philo_eat(philo);
-			philo_sleep(philo);
-			philo_think(philo);
+			// philo_eat(philo);
+			// philo_sleep(philo);
+			// philo_think(philo);
 		}
 	}
+	return (NULL);
 }
