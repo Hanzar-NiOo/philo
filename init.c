@@ -6,7 +6,7 @@
 /*   By: hnioo <hnioo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/15 00:27:48 by hnioo             #+#    #+#             */
-/*   Updated: 2026/02/15 00:28:06 by hnioo            ###   ########.fr       */
+/*   Updated: 2026/02/15 03:05:58 by hnioo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_time	get_time(void)
 	t_time			time;
 
 	gettimeofday(&tp, NULL);
-	time = tp.tv_sec * 1000 + (tp.tv_usec/1000);
+	time = tp.tv_sec * 1000 + (tp.tv_usec / 1000);
 	return (time);
 }
 
@@ -51,7 +51,8 @@ void	philo_init(int argc, char **argv, t_philo *philo)
 	}
 }
 
-void	mutex_init(t_philo *philo, pthread_mutex_t	*forks, pthread_mutex_t	*death)
+void	mutex_init(t_philo *philo, pthread_mutex_t	*forks,
+		pthread_mutex_t	*death)
 {
 	int	idx;
 

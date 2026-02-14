@@ -6,7 +6,7 @@
 /*   By: hnioo <hnioo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 21:27:13 by hnioo             #+#    #+#             */
-/*   Updated: 2026/02/15 02:49:22 by hnioo            ###   ########.fr       */
+/*   Updated: 2026/02/15 03:05:18 by hnioo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ int	philo_wait(t_philo *philo, t_time time)
 	while (get_time() - start_time < time)
 	{
 		if (check_dead(philo))
-			return(1);
+			return (1);
 		usleep(10);
 	}
-	return(0);
+	return (0);
 }

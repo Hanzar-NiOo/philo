@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-void	ft_freeall(t_philo *philo, pthread_mutex_t *forks,
+void	freeall(t_philo *philo, pthread_mutex_t *forks,
 	pthread_mutex_t *death)
 {
 	int	i;
