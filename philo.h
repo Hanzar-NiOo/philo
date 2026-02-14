@@ -13,11 +13,37 @@
 #ifndef PHILO_H
 # define PHILO_H
 
+# include <stdio.h>
+# include <stdlib.h>
+# include <pthread.h>
+# include <unistd.h>
+# include <sys/time.h>
+
 typedef enum s_error
 {
 	ARG_COUNT,
 	ARG_VALUE,
 }	t_error;
+
+typedef unsigned long long	t_time;
+
+typedef struct s_philo
+{
+	int				id;
+	int				must_eat;
+	int				number_of_philo;
+	int				total_eaten;
+	int				*check_dead;
+	t_time			time_to_die;
+	t_time			time_to_eat;
+	t_time			time_to_sleep;
+	t_time			start_time;
+	t_time			last_meal;
+	pthread_t		thread;
+	pthread_mutex_t	*death;
+	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*right_fork;
+}	t_philo;
 
 # include <unistd.h>
 # include <stdio.h>
