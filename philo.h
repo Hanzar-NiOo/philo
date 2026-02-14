@@ -59,5 +59,9 @@ t_time	get_time(void);
 long	ft_atoi(const char *str);
 void	print_philo(t_philo *philo, char *str, int status);
 int		check_dead(t_philo *philo);
+int		philo_wait(t_philo *philo, t_time time);
+void	philo_eat(t_philo *philo);
+void	philo_sleep(t_philo *philo);
+void	philo_think(t_philo *philo);
 
 #endif

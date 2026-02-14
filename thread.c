@@ -6,7 +6,7 @@
 /*   By: hnioo <hnioo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 23:41:56 by hnioo             #+#    #+#             */
-/*   Updated: 2026/02/15 02:25:15 by hnioo            ###   ########.fr       */
+/*   Updated: 2026/02/15 02:45:58 by hnioo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ void	*check_philo(void *arg)
 		{
 			if (check_dead(philo))
 				break ;
-			// philo_eat(philo);
-			// philo_sleep(philo);
-			// philo_think(philo);
+			philo_eat(philo);
+			philo_sleep(philo);
+			philo_think(philo);
 		}
 	}
 	return (NULL);

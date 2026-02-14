@@ -15,7 +15,7 @@ NAME 	= philo
 CC 		= gcc
 CFLAGS	= -pthread -Wall -Wextra -Werror
 
-SRCS	= main.c error.c check_arg.c utils.c init.c thread.c
+SRCS	= main.c error.c check_arg.c utils.c init.c thread.c activity.c
 
 GREEN	= \033[0;32m
 RESET	= \033[0m
