@@ -47,6 +47,6 @@ int	main(int argc, char **argv)
 	philo_init(argc, argv, philo);
 	mutex_init(philo, forks, death);
 	create_thread(philo);
-	ft_freeall(philo, forks, death);
+	freeall(philo, forks, death);
 	return (0);
 }
