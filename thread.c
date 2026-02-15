@@ -6,7 +6,7 @@
 /*   By: hnioo <hnioo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 23:41:56 by hnioo             #+#    #+#             */
-/*   Updated: 2026/02/15 02:45:58 by hnioo            ###   ########.fr       */
+/*   Updated: 2026/02/15 09:48:42 by hnioo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	*check_philo(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	if (philo->number_of_philo == 1 && check_dead(philo))
+	if (philo->number_of_philo == 1 && !check_dead(philo))
 	{
 		if (pthread_mutex_lock(philo->left_fork))
 			return (NULL);

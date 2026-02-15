@@ -6,7 +6,7 @@
 /*   By: hnioo <hnioo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 21:27:13 by hnioo             #+#    #+#             */
-/*   Updated: 2026/02/15 03:05:18 by hnioo            ###   ########.fr       */
+/*   Updated: 2026/02/15 09:58:09 by hnioo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	print_philo(t_philo *philo, char *str, int status)
 	pthread_mutex_lock(philo->death);
 	if (!*philo->check_dead)
 	{
-		printf("%llu %d %s\n", (get_time() - philo->start_time),
+		printf("%llu, philospher(%d) %s\n", (get_time() - philo->start_time),
 			philo->id + 1, str);
 		if (status)
 			*philo->check_dead = 1;
